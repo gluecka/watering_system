@@ -7,8 +7,8 @@ from adafruit_ads1x15.analog_in import AnalogIn
 # create i2c bus
 i2c = busio.I2C(board.SCL, board.SDA)
 
-# high voltage == 2,71 --> out of wather 0%
-# low voltage == 1,006 --> in wather 100%
+# low_wather == 2,71 --> out of wather 0%
+# high wather == 1,006 --> in wather 100%
 
 # define fuction to calculate the percent of the wather in soil
 def soil(x):
@@ -41,4 +41,8 @@ while True:
     # print(F'Wert: {format(value.value)}', F'Volt: {format(value.voltage)}')
     print(F'{y} %')
     time.sleep(1)
+
+
+
+# create post request to influxDB
 
