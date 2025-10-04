@@ -4,10 +4,19 @@ import board
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 import RPi.GPIO as GPIO
+from bmp280 import BMP280
+from smbus2 import SMBus
 
-# !!!!!!!!!!!!!!!!!! measure the soil condition !!!!!!!!!!!!!!!!!!!!!!!!
+# initialization of BMP 280
+bus = SMBus(1)
+sensor_bmp = BMP280(i2c_dev=bus)
 
-# create i2c bus
+
+# BOARD --> take the pysical numbers of the pin board
+GPIO.setmode(GPIO.BCM)
+
+
+# create i2c bus for soil measuring
 i2c = busio.I2C(board.SCL, board.SDA)
 
 # identified values of soil_value_ident.py
@@ -45,33 +54,33 @@ while True:
         # print value and voltage in 1 secound interval
         # print(F'Wert: {format(value.value)}', F'Volt: {format(value.voltage)}')
         # print(F'{measured_voltage_in_percent} %')
-        print(F'{measured_value_in_percent} %')
+        # print(F'{measured_value_in_percent} %')
     except:
         # measured_voltage_in_percent = 0
         measured_value_in_percent = 0
         print(F'{measured_value_in_percent} % as Error Value')
     
+    # PIN 16 as input for the measuring of the watering system status ON of OFF
+    try:
+        GPIO.setup(16, GPIO.IN)
+        system_status = GPIO.input(16)
+        #print(GPIO.input(16), "Bewässerung aus")
+    except:
+        system_status = 1
+
+    # read preassure and temperature with BMP 280
+    try:
+        preassure = sensor_bmp.get_pressure()
+        temperature = sensor_bmp.get_temperature()
+    except:
+        preassure = 0
+        temperature = 0
+
     
+    print(F'{measured_value_in_percent} % System Status: {system_status} Temperature: {temperature} Preassure: {preassure}')
+    time.sleep(1)    
 
 
-# !!!!!!!!!!!!!!!!!!!! measure the temperature outside !!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-# !!!!!!!!!!!!!!!!!!! measure the on/off status of the wathering system !!!!!!!!!!!!!!!!!!
-
-    # BOARD --> take the pysical numbers of the pin board
-    # GPIO.setmode(GPIO.BOARD)
-
-    # PIN 36 as input for the measuring of the watering system status ON of OFF
-    GPIO.setup(27, GPIO.IN)
-    status_watheringsystem = GPIO.input(27)
-    if status_watheringsystem == 1:
-        print("Bewässerung an")
-    else:
-        print('Bewässerung aus')
-    
-    time.sleep(1)
 
 
 
