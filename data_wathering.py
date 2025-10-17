@@ -4,22 +4,20 @@ import board
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 import RPi.GPIO as GPIO
-from bmp280 import BMP280
-from smbus2 import SMBus
-
-# initialization of BMP 280
-bus = SMBus(1)
-sensor_bmp = BMP280(i2c_dev=bus)
 
 
 # BOARD --> take the pysical numbers of the pin board
 GPIO.setmode(GPIO.BCM)
 
-
 # create i2c bus for soil measuring
 i2c = busio.I2C(board.SCL, board.SDA)
 
+# create object of ADC (Analog Digital Converter) using i2c bus
+ads = ADS.ADS1115(i2c)
+
 # identified values of soil_value_ident.py
+# write the value in the variable--> low_wather if the sensor is absolutely dry
+# write the value in the variable--> high_wather if the sensor is in wather
 low_wather = 21866
 high_wather = 8195
 
@@ -34,10 +32,6 @@ def soil(input_measured_value):
         wather_rel = input_measured_value - high_wather
         wather = wather_rel / rangee * 100
         return wather
-
-    
-# create object of ADC (Analog Digital Converter) using i2c bus
-ads = ADS.ADS1115(i2c)
 
 while True:
     
@@ -68,16 +62,8 @@ while True:
     except:
         system_status = 1
 
-    # read preassure and temperature with BMP 280
-    try:
-        preassure = sensor_bmp.get_pressure()
-        temperature = sensor_bmp.get_temperature()
-    except:
-        preassure = 0
-        temperature = 0
-
     
-    print(F'{measured_value_in_percent} % System Status: {system_status} Temperature: {temperature} Preassure: {preassure}')
+    print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}')
     time.sleep(1)    
 
 
