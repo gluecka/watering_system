@@ -23,6 +23,12 @@ high_wather = 8195
 # define the wathering time if the wathering system is in progress --> in scounds
 wathering_time = 5
 
+# define wather effekt time if the wathering process is finish --> in secounds
+effect_time = 10
+
+# define the value wich is responsible to set the trigger on GO --> in percent of soil condition
+set_trigger = 20
+
 # define fuction to calculate the percent of the wather in soil
 def soil(input_measured_value):
     if input_measured_value >= low_wather:
@@ -44,15 +50,17 @@ while True:
     counter = 0
 
     while counter < 20:
+        
+        try:
+            # read values and voltage in the value variable
+            value = AnalogIn(ads, ADS.P0)
 
-        # read values and voltage in the value variable
-        value = AnalogIn(ads, ADS.P0)
-
-        # read values and voltage in the value variable
-        measured_value= value.value
-        measured_value_in_percent = round(soil(measured_value), 2)
-        # y = round(soil(voltage), 2)
-
+            # read values and voltage in the value variable
+            measured_value= value.value
+            measured_value_in_percent = round(soil(measured_value), 2)
+            # y = round(soil(voltage), 2)
+        except:
+            measured_value_in_percent = 100
         
         trigger_list.append(measured_value_in_percent)
         print(trigger_list)
@@ -69,7 +77,7 @@ while True:
 
     # !!!!!!!!!!!!!!!!! Start the wathering system !!!!!!!!!!!!!!!!!!!!!!!
 
-    if trigger_value < 20:
+    if trigger_value < set_trigger:
 
     
 
@@ -87,8 +95,9 @@ while True:
             time.sleep(wathering_time)
             # PIN 37 set IN, if the wathering system habe to stop
             GPIO.setup(26, GPIO.IN)
+            time.sleep(effect_time)
             print('wathering system going to off......')
-
+            
             #GPIO.output(26, False)
         except:
             GPIO.setup(26, GPIO.IN)
