@@ -1,7 +1,10 @@
-FROM Python:
+FROM python:3.11.2
 
-ENV: TZ=Europe/Vienna
-WORKDIR: 
+WORKDIR /usr/src/pyapp
 
-COPY . .
+COPY trigger.py .
+COPY requirements.txt .
 
+RUN pip install -r requirements.txt
+
+CMD [ "python", "trigger.py" ]

@@ -11,7 +11,6 @@ Adafruit-PlatformDetect==3.83.1
 Adafruit-PureIO==1.1.11
 binho-host-adapter==0.1.6
 i2cdevice==1.0.0
-lgpio==0.2.2.0
 pyftdi==0.57.1
 pyserial==3.5
 pytz==2025.2

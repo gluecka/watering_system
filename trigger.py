@@ -63,8 +63,8 @@ while True:
             measured_value_in_percent = 100
         
         trigger_list.append(measured_value_in_percent)
-        print(trigger_list)
-        print(F'Average: {statistics.mean(trigger_list)}')
+        # print(trigger_list)
+        # print(F'Average: {statistics.mean(trigger_list)}')
         time.sleep(0.5)
         counter += 1
 
@@ -89,14 +89,14 @@ while True:
         try:
             # PIN 37 set OUT, if the wathering system have to start the wathering
             GPIO.setup(26, GPIO.OUT)
-            print('wathering in progress.......')
+            # print('wathering in progress.......')
 
             # define the acitve wathering time in secounds
             time.sleep(wathering_time)
             # PIN 37 set IN, if the wathering system habe to stop
             GPIO.setup(26, GPIO.IN)
             time.sleep(effect_time)
-            print('wathering system going to off......')
+            # print('wathering system going to off......')
             
             #GPIO.output(26, False)
         except:
