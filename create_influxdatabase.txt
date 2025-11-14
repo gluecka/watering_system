@@ -1,0 +1,7 @@
+
+# Acces in Docker Influx Shell
+docker exec -it influxdb influx
+
+
+# Create the Database in the Docker Influx Shell
+create databases <NAMEDATABASE>

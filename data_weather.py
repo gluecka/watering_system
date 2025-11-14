@@ -1,6 +1,18 @@
 import time
 import bme280
 from smbus2 import SMBus
+from influxdb import InfluxDBClient
+from datetime import datetime
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+#import from .env File
+USER = os.environ.get('INFLUX_USER')
+PASSWORD = os.environ.get('INFLUX_PASSWORD')
+HOST = os.environ.get('HOST')
+DATABASE = os.environ.get('INFLUX_DATABASE')
+PORT = os.environ.get('INFLUX_PORT')
 
 # initialization of BME 280
 bus = SMBus(1)
@@ -20,11 +32,30 @@ while True:
         temperature = 0
         humidity = 0
     
-    print(F'Temperature: {temperature} Preassure: {pressure} Humidity: {humidity}')
-    time.sleep(1)
+    # print(F'Temperature: {temperature} Preassure: {pressure} Humidity: {humidity}')
+    
 
 
     # !!!!!!!!!!!!!!!!!!! create post request to influxDB !!!!!!!!!!!!!!!!!!!!!!
 
+    # set influx client
+    client = InfluxDBClient(HOST, PORT, USER, PASSWORD, DATABASE)
 
-    
+    json_payload = []
+
+    data_1 = {
+        'measurement' : 'weather',
+        'time' : datetime.now(),
+        'fields' : {
+        'Temperatur' : temperature,
+        'Luftfeuchtigkeit' : humidity,
+        'Luftdruck' : pressure
+            }
+    }
+
+    json_payload.append(data_1)
+
+    # write data in influxdb
+    client.write_points(json_payload)
+    time.sleep(1)
+    #print(json_payload)
