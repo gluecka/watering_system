@@ -4,7 +4,18 @@ import board
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 import RPi.GPIO as GPIO
+from influxdb import InfluxDBClient
+from datetime import datetime
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
+#import from .env File
+USER = os.environ.get('INFLUX_USER')
+PASSWORD = os.environ.get('INFLUX_PASSWORD')
+HOST = os.environ.get('HOST')
+DATABASE = os.environ.get('INFLUX_DATABASE')
+PORT = os.environ.get('INFLUX_PORT')
 
 # BOARD --> take the pysical numbers of the pin board
 GPIO.setmode(GPIO.BCM)
@@ -52,7 +63,7 @@ while True:
     except:
         # measured_voltage_in_percent = 0
         measured_value_in_percent = 0
-        print(F'{measured_value_in_percent} % as Error Value')
+        # print(F'{measured_value_in_percent} % as Error Value')
     
     # PIN 16 as input for the measuring of the watering system status ON of OFF
     try:
@@ -63,8 +74,8 @@ while True:
         system_status = 1
 
     
-    print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}')
-    time.sleep(1)    
+    # print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}')
+    # time.sleep(1)    
 
 
 
@@ -72,3 +83,24 @@ while True:
 
 # !!!!!!!!!!!!!!!!!!! create post request to influxDB !!!!!!!!!!!!!!!!!!!!!!
 
+    # set influx client
+    client = InfluxDBClient(HOST, PORT, USER, PASSWORD, DATABASE)
+
+    json_payload = []
+
+    data_1 = {
+        'measurement' : 'wathering',
+        'time' : datetime.now(),
+        'fields' : {
+            'Bodenfeuchtigkeit' : measured_value_in_percent,
+            'Status Bewässerung' : system_status
+        }
+    }
+
+    json_payload.append(data_1)
+
+    # write data in influxdb
+    client.write_points(json_payload)
+    # print(json_payload)
+    time.sleep(1)
+    

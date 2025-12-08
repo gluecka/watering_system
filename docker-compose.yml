@@ -1,4 +1,4 @@
-version: '2.4'
+version: '3.4'
 services:
   grafana:
     container_name: grafana
@@ -36,24 +36,28 @@ services:
   #   restart: on-failure:3
 
 
+  # data-wathering:
+  #   container_name: py-data_wathering
+  #   build:
+  #     dockerfile: Dockerfile.data_wathering
+  #   privileged: true
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime
+  #   restart: on-failure:3
+  #   depends_on:
+  #     - influxdb
 
 
-
-
-# data wathering
-
-
-
-  data-weather:
-    container_name: py-data_weather
-    build:
-      dockerfile: Dockerfile.data_weather
-    privileged: true
-    volumes:
-      - /etc/localtime:/etc/localtime
-    restart: on-failure:3
-    depends_on:
-      - influxdb
+  # data-weather:
+  #   container_name: py-data_weather
+  #   build:
+  #     dockerfile: Dockerfile.data_weather
+  #   privileged: true
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime
+  #   restart: on-failure:3
+  #   depends_on:
+  #     - influxdb
 
 
 volumes:
