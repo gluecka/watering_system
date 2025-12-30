@@ -35,14 +35,14 @@ high_wather = 8195
 # define fuction to calculate the percent of the wather in soil
 def soil(input_measured_value):
     if input_measured_value >= low_wather:
-        return 0
+        return float(0.1)
     elif input_measured_value <= high_wather:
-        return 100
+        return float(100.1)
     else:
         rangee = low_wather - high_wather
-        wather_rel = input_measured_value - high_wather
+        wather_rel = (input_measured_value + 0.11111111) - high_wather
         wather = wather_rel / rangee * 100
-        return wather
+        return float(wather)
 
 while True:
     
@@ -54,7 +54,9 @@ while True:
         # measured_voltage_in_percent = round(soil(measured_voltage), 2)
 
         measured_value= value.value
-        measured_value_in_percent = round(soil(measured_value), 2)
+        measured_value= float(measured_value)
+        # measured_value_in_percent = round(soil(measured_value), 2)
+        measured_value_in_percent = soil(measured_value)
 
         # print value and voltage in 1 secound interval
         # print(F'Wert: {format(value.value)}', F'Volt: {format(value.voltage)}')
@@ -62,22 +64,26 @@ while True:
         # print(F'{measured_value_in_percent} %')
     except:
         # measured_voltage_in_percent = 0
-        measured_value_in_percent = 0
+        measured_value_in_percent = float(0.0)
         # print(F'{measured_value_in_percent} % as Error Value')
     
     # PIN 16 as input for the measuring of the watering system status ON of OFF
     try:
         GPIO.setup(16, GPIO.IN)
         system_status = GPIO.input(16)
-        #print(GPIO.input(16), "Bewässerung aus")
+        # print(GPIO.input(16), "Bewässerung aus")
     except:
         system_status = 1
+        
 
     
-    # print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}')
-    # time.sleep(1)    
+    print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}')
+    print(type(measured_value_in_percent))
+#    time.sleep(2)    
 
-
+    # # temporary exit point to develop trigger value
+    # import sys
+    # sys.exit()
 
 
 
@@ -101,6 +107,6 @@ while True:
 
     # write data in influxdb
     client.write_points(json_payload)
-    # print(json_payload)
-    time.sleep(1)
+    print(json_payload)
+    time.sleep(2)
     

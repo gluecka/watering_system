@@ -28,9 +28,9 @@ while True:
         temperature = round(data.temperature, 3)
         humidity = round(data.humidity, 3)
     except:
-        pressure = 0
-        temperature = 0
-        humidity = 0
+        pressure = 0.0
+        temperature = 0.0
+        humidity = 0.0
     
     # print(F'Temperature: {temperature} Preassure: {pressure} Humidity: {humidity}')
     

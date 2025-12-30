@@ -11,6 +11,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${INFLUX_PASSWORD}
     volumes:
       - 'grafana_storage:/var/lib/docker/volumes/grafana_storage'
+      - '/etc/localtime:/etc/localtime'
 
 
   influxdb:
@@ -21,6 +22,7 @@ services:
     restart: on-failure:3
     volumes:
       - 'influxdb_data:/var/lib/docker/volmees/influxdb_data'
+      - '/etc/localtime:/etc/localtime'
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_USER=${INFLUX_USER}
@@ -28,36 +30,36 @@ services:
       - DOCKER_INFLUXDB_DB=${INFLUX_DATABASE}     
 
 
-  # py-trigger:
-  #   container_name: py-trigger
-  #   build:
-  #     dockerfile: Dockerfile.trigger
-  #   privileged: true
-  #   restart: on-failure:3
+  py-trigger:
+    container_name: py-trigger
+    build:
+      dockerfile: Dockerfile.trigger
+    privileged: true
+    restart: on-failure:3
 
 
-  # data-wathering:
-  #   container_name: py-data_wathering
-  #   build:
-  #     dockerfile: Dockerfile.data_wathering
-  #   privileged: true
-  #   volumes:
-  #     - /etc/localtime:/etc/localtime
-  #   restart: on-failure:3
-  #   depends_on:
-  #     - influxdb
+  data-wathering:
+    container_name: py-data_wathering
+    build:
+      dockerfile: Dockerfile.data_wathering
+    privileged: true
+    volumes:
+      - '/etc/localtime:/etc/localtime'
+    restart: on-failure:3
+    depends_on:
+      - influxdb
 
 
-  # data-weather:
-  #   container_name: py-data_weather
-  #   build:
-  #     dockerfile: Dockerfile.data_weather
-  #   privileged: true
-  #   volumes:
-  #     - /etc/localtime:/etc/localtime
-  #   restart: on-failure:3
-  #   depends_on:
-  #     - influxdb
+  data-weather:
+    container_name: py-data_weather
+    build:
+      dockerfile: Dockerfile.data_weather
+    privileged: true
+    volumes:
+      - '/etc/localtime:/etc/localtime'
+    restart: on-failure:3
+    depends_on:
+      - influxdb
 
 
 volumes:

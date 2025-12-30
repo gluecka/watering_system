@@ -9,6 +9,7 @@ import statistics
 
 # BCM --> take the numbers of the pins like on the raspberry plan
 GPIO.setmode(GPIO.BCM)
+GPIO.setup(26, GPIO.IN)
 
 # # create i2c bus
 i2c = busio.I2C(board.SCL, board.SDA)
