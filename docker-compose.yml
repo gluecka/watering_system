@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3'
 services:
   grafana:
     container_name: grafana
@@ -60,6 +60,24 @@ services:
     restart: on-failure:3
     depends_on:
       - influxdb
+
+  web-server:
+    container_name: web-server
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: on-failure:3
+    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'
+
+    environment:
+      TZ: 'Europe/Vienna'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    
+    depends_on:
+      - grafana
 
 
 volumes:
