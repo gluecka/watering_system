@@ -10,7 +10,7 @@ services:
       - GF_SECURITY_ADMIN_USER=${INFLUX_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${INFLUX_PASSWORD}
     volumes:
-      - 'grafana_storage:/var/lib/docker/volumes/grafana_storage'
+      - './Docker_volumes/grafana_storage:/var/lib/docker/volumes/grafana_storage'
       - '/etc/localtime:/etc/localtime'
 
 
@@ -21,7 +21,7 @@ services:
       - '4000:8086'
     restart: on-failure:3
     volumes:
-      - 'influxdb_data:/var/lib/docker/volmees/influxdb_data'
+      - './Docker_volumes/influxdb_data:/var/lib/docker/volmees/influxdb_data'
       - '/etc/localtime:/etc/localtime'
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
@@ -61,25 +61,3 @@ services:
     depends_on:
       - influxdb
 
-  web-server:
-    container_name: web-server
-    image: 'jc21/nginx-proxy-manager:latest'
-    restart: on-failure:3
-    ports:
-      - '80:80'
-      - '443:443'
-      - '81:81'
-
-    environment:
-      TZ: 'Europe/Vienna'
-    volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
-    
-    depends_on:
-      - grafana
-
-
-volumes:
-  grafana_storage:
-  influxdb_data:

@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  web-server:
+    container_name: web-server
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: on-failure:3
+    privileged: true
+    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'
+
+    environment:
+      TZ: 'Europe/Vienna'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - nginx-proxy
+
+networks:
+  nginx-proxy:
+    name: nginx-proxy
+    driver: bridge
+    external: true
