@@ -29,8 +29,8 @@ ads = ADS.ADS1115(i2c)
 # identified values of soil_value_ident.py
 # write the value in the variable--> low_wather if the sensor is absolutely dry
 # write the value in the variable--> high_wather if the sensor is in wather
-low_wather = 21866
-high_wather = 8195
+low_wather = 22000
+high_wather = 7900
 
 # define fuction to calculate the percent of the wather in soil
 def soil(input_measured_value):
@@ -39,9 +39,11 @@ def soil(input_measured_value):
     elif input_measured_value <= high_wather:
         return float(100.1)
     else:
-        rangee = low_wather - high_wather
-        wather_rel = (input_measured_value + 0.11111111) - high_wather
-        wather = wather_rel / rangee * 100
+#        rangee = low_wather - high_wather
+#        wather_rel = (input_measured_value + 0.11111111) - high_wather
+#        wather = wather_rel / rangee * 100
+        gradient = -100 / low_wather
+        wather = gradient * input_measured_value + 100
         return float(wather)
 
 while True:
@@ -107,6 +109,6 @@ while True:
 
     # write data in influxdb
     client.write_points(json_payload)
-    print(json_payload)
+#    print(json_payload)
     time.sleep(2)
     

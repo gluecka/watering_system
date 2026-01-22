@@ -18,8 +18,8 @@ i2c = busio.I2C(board.SCL, board.SDA)
 ads = ADS.ADS1115(i2c)
 
 # identified values of soil_value_ident.py
-low_wather = 21866
-high_wather = 8195
+low_wather = 22000
+high_wather = 7900
 
 # define the wathering time if the wathering system is in progress --> in scounds
 wathering_time = 5
@@ -37,9 +37,10 @@ def soil(input_measured_value):
     elif input_measured_value <= high_wather:
         return 100
     else:
-        rangee = low_wather - high_wather
-        wather_rel = input_measured_value - high_wather
-        wather = wather_rel / rangee * 100
+#        rangee = low_wather - high_wather
+#        wather_rel = input_measured_value - high_wather
+        gradient = -100 / low_wather
+        wather = gradient * input_measured_value + 100
         return wather
 
 
