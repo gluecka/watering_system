@@ -51,11 +51,11 @@ shell command: exit<br>
 shell command: docker kill soil_ident & docker rm soil_ident<br><br>
 
 
-# Define this values in the files: trigger.py; data_wathering.py
+## Define this values in the files: trigger.py; data_wathering.py
 write the measured value of the sensor out of wather in the variable low_wather<br>
 write the measrued value of the sonsor complet in wather in the variable high_wather<br><br>
 
-# Build new docker image about the new sensor values
+## Build new docker image about the new sensor values
 shell command: docker compose -f docker-compose.service.yml build py-trigger<br>
 shell command: docker compose -f docker-compose.service.yml build data-wathering<br><br>
 
