@@ -2,3 +2,4 @@ venv
 .env
 letsencrypt
 data
+Docker_volumes

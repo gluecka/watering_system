@@ -5,13 +5,13 @@ services:
     image: grafana/grafana
     ports:
       - '3000:3000'
-    restart: on-failure:3
+    restart: always
     environment:
       - GF_SECURITY_ADMIN_USER=${INFLUX_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${INFLUX_PASSWORD}
     volumes:
-      - './Docker_volumes/grafana_storage:/var/lib/docker/volumes/grafana_storage'
-      - '/etc/localtime:/etc/localtime'
+      - ./Docker_volumes/grafana_storage:/var/lib/docker/volumes/grafana_storage
+      - /etc/localtime:/etc/localtime
 
 
   influxdb:
@@ -19,10 +19,10 @@ services:
     image: influxdb:1.8
     ports:
       - '4000:8086'
-    restart: on-failure:3
+    restart: always
     volumes:
-      - './Docker_volumes/influxdb_data:/var/lib/docker/volmees/influxdb_data'
-      - '/etc/localtime:/etc/localtime'
+      - ./Docker_volumes/influxdb_data:/var/lib/docker/volmees/influxdb_data
+      - /etc/localtime:/etc/localtime
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_USER=${INFLUX_USER}
@@ -44,7 +44,7 @@ services:
       dockerfile: Dockerfile.data_wathering
     privileged: true
     volumes:
-      - '/etc/localtime:/etc/localtime'
+      - /etc/localtime:/etc/localtime
     restart: on-failure:3
     depends_on:
       - influxdb
@@ -56,7 +56,7 @@ services:
       dockerfile: Dockerfile.data_weather
     privileged: true
     volumes:
-      - '/etc/localtime:/etc/localtime'
+      - /etc/localtime:/etc/localtime
     restart: on-failure:3
     depends_on:
       - influxdb

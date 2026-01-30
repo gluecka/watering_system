@@ -57,5 +57,5 @@ while True:
 
     # write data in influxdb
     client.write_points(json_payload)
-    time.sleep(1)
+    time.sleep(2)
     #print(json_payload)

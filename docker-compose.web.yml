@@ -4,7 +4,7 @@ services:
   web-server:
     container_name: web-server
     image: 'jc21/nginx-proxy-manager:latest'
-    restart: on-failure:3
+    restart: always
     privileged: true
     ports:
       - '80:80'

@@ -22,7 +22,7 @@ low_wather = 22000
 high_wather = 7900
 
 # define the wathering time if the wathering system is in progress --> in scounds
-wathering_time = 5
+wathering_time = 10
 
 # define wather effekt time if the wathering process is finish --> in secounds
 effect_time = 10

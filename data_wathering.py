@@ -79,8 +79,8 @@ while True:
         
 
     
-    print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}')
-    print(type(measured_value_in_percent))
+#    print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}')
+#    print(type(measured_value_in_percent))
 #    time.sleep(2)    
 
     # # temporary exit point to develop trigger value
