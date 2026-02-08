@@ -45,8 +45,8 @@ shell command: ./build.sh --> once only<br>
 shell command: ./deploy_container.sh<br>
 shell command: docker exec -it soil_ident /bin/bash<br>
 shell command in docker shell: python soil_value_ident.py<br>
-1. write down the value if the sensor is out of wather
-2. write down the value if the sonsor is complet in wather
+1. write down the value if the sensor is out of wather<br>
+2. write down the value if the sonsor is complet in wather<br>
 shell command: exit<br>
 shell command: docker kill soil_ident & docker rm soil_ident<br><br>
 
@@ -64,8 +64,11 @@ shell command: docker compose -f docker-compose.service.yml build data-wathering
 
 ## Start Docker services
 
-shell command: docker compose -f docker-compose.service.yml up -d<br>
-shell command: docker compose -f docker-compose.web.yml up -d<br><br>
+Start the summer mode: ./start_summer_mode.sh    --> start the mode with the wathering system  <br>
+Start the winter mode and stop the summer services: --> wintermode is without wathering system, weather data only <br>
+1. ./remove_summer_container.sh<br>
+2. ./start_winter_mode.sh<br>
+Start the Webserver: docker compose -f docker-compose.web.yml up -d<br><br>
 
 ## Create Influx Database
 

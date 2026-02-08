@@ -12,6 +12,7 @@ services:
     volumes:
       - ./Docker_volumes/grafana_storage:/var/lib/docker/volumes/grafana_storage
       - /etc/localtime:/etc/localtime
+    profiles: ['summer', 'winter']
 
 
   influxdb:
@@ -27,7 +28,8 @@ services:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_USER=${INFLUX_USER}
       - DOCKER_INFLUXDB_PASSWORD=${INFLUX_PASSWORD}
-      - DOCKER_INFLUXDB_DB=${INFLUX_DATABASE}     
+      - DOCKER_INFLUXDB_DB=${INFLUX_DATABASE}
+    profiles: ['summer', 'winter']     
 
 
   py-trigger:
@@ -36,6 +38,7 @@ services:
       dockerfile: Dockerfile.trigger
     privileged: true
     restart: on-failure:3
+    profiles: ['summer']
 
 
   data-wathering:
@@ -48,6 +51,7 @@ services:
     restart: on-failure:3
     depends_on:
       - influxdb
+    profiles: ['summer']
 
 
   data-weather:
@@ -60,4 +64,5 @@ services:
     restart: on-failure:3
     depends_on:
       - influxdb
+    profiles: ['summer', 'winter']
 
