@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
+    - name: Build the Docker Compose Image
       run: |
         docker compose -f docker-compose.service.yml build trigger-py
+        docker compose -f docker-compose.service.yml build data-wathering
+        docker compose -f docker-compose.service.yml build data-weather
