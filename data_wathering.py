@@ -42,8 +42,9 @@ def soil(input_measured_value):
 #        rangee = low_wather - high_wather
 #        wather_rel = (input_measured_value + 0.11111111) - high_wather
 #        wather = wather_rel / rangee * 100
-        gradient = -100 / low_wather
-        wather = gradient * input_measured_value + 100
+        gradient = -100 / (low_wather - high_wather)
+        y_distance = 100 - (gradient * high_wather)
+        wather = gradient * input_measured_value + y_distance
         return float(wather)
 
 while True:
