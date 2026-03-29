@@ -1,0 +1,2 @@
+
+docker build -f Dockerfile.trigger -t ghrc.io/gluecka/py-trigger:1.0 .

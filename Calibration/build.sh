@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t ident:1.0 .
+docker build -t ghcr.io/gluecka/ident:1.0 .

@@ -11,7 +11,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${INFLUX_PASSWORD}
     volumes:
       - ./Docker_volumes/grafana_storage:/var/lib/docker/volumes/grafana_storage
-      - /etc/localtime:/etc/localtime
+      - /etc/localtime:/etc/localtime:ro
     profiles: ['summer', 'winter']
 
 
@@ -23,7 +23,7 @@ services:
     restart: always
     volumes:
       - ./Docker_volumes/influxdb_data:/var/lib/docker/volmees/influxdb_data
-      - /etc/localtime:/etc/localtime
+      - /etc/localtime:/etc/localtime:ro
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_USER=${INFLUX_USER}
@@ -34,8 +34,9 @@ services:
 
   py-trigger:
     container_name: py-trigger
-    build:
-      dockerfile: Dockerfile.trigger
+    image: ghcr.io/gluecka/py-trigger:1.0
+#    build:
+#      dockerfile: Dockerfile.trigger
     privileged: true
     restart: on-failure:3
     profiles: ['summer']
@@ -43,11 +44,12 @@ services:
 
   data-wathering:
     container_name: py-data_wathering
-    build:
-      dockerfile: Dockerfile.data_wathering
+    image: ghcr.io/gluecka/py-wathering:1.0
+#    build:
+#      dockerfile: Dockerfile.data_wathering
     privileged: true
     volumes:
-      - /etc/localtime:/etc/localtime
+      - /etc/localtime:/etc/localtime:ro
     restart: on-failure:3
     depends_on:
       - influxdb
@@ -56,11 +58,12 @@ services:
 
   data-weather:
     container_name: py-data_weather
-    build:
-      dockerfile: Dockerfile.data_weather
+    image: ghcr.io/gluecka/py-weather:1.0
+#    build:
+#      dockerfile: Dockerfile.data_weather
     privileged: true
     volumes:
-      - /etc/localtime:/etc/localtime
+      - /etc/localtime:/etc/localtime:ro
     restart: on-failure:3
     depends_on:
       - influxdb
