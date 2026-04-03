@@ -22,10 +22,10 @@ low_wather = 21370
 high_wather = 7800
 
 # define the wathering time if the wathering system is in progress --> in scounds
-wathering_time = 10
+wathering_time = 60
 
 # define wather effekt time if the wathering process is finish --> in secounds
-effect_time = 10
+effect_time = 60
 
 # define the value wich is responsible to set the trigger on GO --> in percent of soil condition
 set_trigger = 20
@@ -52,7 +52,7 @@ while True:
     # set the loop counter on 0 for 10 interations
     counter = 0
 
-    while counter < 20:
+    while counter < 40:
         
         try:
             # read values and voltage in the value variable
