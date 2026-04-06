@@ -6,6 +6,7 @@ from adafruit_ads1x15.analog_in import AnalogIn
 import RPi.GPIO as GPIO
 from influxdb import InfluxDBClient
 from datetime import datetime
+import statistics
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -50,21 +51,30 @@ def soil(input_measured_value):
 while True:
     
     try:
-        # read values and voltage in the value variable
-        value = AnalogIn(ads, ADS.P0)
+        measure_counter = 0
+        measure_list = []
+        while measure_counter <= 10:
+            # read values and voltage in the value variable
+            value = AnalogIn(ads, ADS.P0)
 
-        # measured_voltage= value.voltage
-        # measured_voltage_in_percent = round(soil(measured_voltage), 2)
+            # measured_voltage= value.voltage
+            # measured_voltage_in_percent = round(soil(measured_voltage), 2)
 
-        measured_value= value.value
-        measured_value= float(measured_value)
-        # measured_value_in_percent = round(soil(measured_value), 2)
-        measured_value_in_percent = soil(measured_value)
+            measured_value= value.value
+            measured_value= float(measured_value)
+            # measured_value_in_percent = round(soil(measured_value), 2)
+            measured_value_in_percent = soil(measured_value)
 
-        # print value and voltage in 1 secound interval
-        # print(F'Wert: {format(value.value)}', F'Volt: {format(value.voltage)}')
-        # print(F'{measured_voltage_in_percent} %')
-        # print(F'{measured_value_in_percent} %')
+            measure_list.append(measured_value_in_percent)
+
+            # print value and voltage in 1 secound interval
+            # print(F'Wert: {format(value.value)}', F'Volt: {format(value.voltage)}')
+            # print(F'{measured_voltage_in_percent} %')
+            # print(F'{measured_value_in_percent} %')
+            measure_counter += 1
+            time.sleep(0.5)
+        measured_value_in_percent = float(statistics.mean(measure_list))
+
     except:
         # measured_voltage_in_percent = 0
         measured_value_in_percent = float(0.0)

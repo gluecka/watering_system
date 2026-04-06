@@ -20,6 +20,7 @@ i2c = busio.I2C(board.SCL, board.SDA)
 
 # create object of ADC (Analog Digital Converter) using i2c bus
 ads = ADS.ADS1115(i2c)
+ads.gain = 1
 
 while True:
 
