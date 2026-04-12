@@ -38,8 +38,8 @@ jobs:
         file: Dockerfile.trigger
         push: true
         tags: |
-          ghcr.io/gluecka/py-trigger:latest
-          ghcr.io/gluecka/py-trigger:${{ github.sha }}
+          ghcr.io/${{ github.actor }}/py-trigger:latest
+          ghcr.io/${{ github.actor }}/py-trigger:${{ github.sha }}
     
     - name: Deploy to Raspberry via SSH (Docker compose)
       uses: appleboy/ssh-action@v1.0.3
