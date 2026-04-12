@@ -38,8 +38,8 @@ jobs:
         file: Dockerfile.trigger
         push: true
         tags: |
-          ghcr.io/${{ github.actor }}/py-trigger:latest
-          ghcr.io/${{ github.actor }}/py-trigger:${{ github.sha }}
+          ghcr.io/${{ github.repository_owner }}/py-trigger:latest
+          ghcr.io/${{ github.repository_owner }}/py-trigger:${{ github.sha }}
     
     - name: Deploy to Raspberry via SSH (Docker compose)
       uses: appleboy/ssh-action@v1.0.3
@@ -54,6 +54,6 @@ jobs:
           echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           git pull origin master
 
-          docker rmi -f ghcr.io/gluecka/py-trigger:latest
+          docker rmi -f ghcr.io/${{ github.repository_owner }}/py-trigger:latest
 
           docker compose -f docker-compose.service.yml --profile summer up -d
