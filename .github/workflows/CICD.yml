@@ -34,7 +34,7 @@ jobs:
     - name: Build and push first Image
       uses: docker/build-push-action@v5
       with:
-        context: ./watering_system/Dockerfile.trigger
+        context: ./watering_system
         push: true
         tags: |
           ghcr.io/gluecka/py-trigger:latest
