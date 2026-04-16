@@ -17,9 +17,9 @@ jobs:
 
     steps:
 
-    - name: Create .env file
-      run: | # have to define secrets --> OK
-        echo '${{ secrets.ENV_FILE }}' > .env 
+    # - name: Create .env file
+    #   run: | # have to define secrets --> OK
+    #     echo '${{ secrets.ENV_FILE }}' > .env 
 
     - name: Checkout repository
       uses: actions/checkout@v4

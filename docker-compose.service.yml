@@ -46,6 +46,8 @@ services:
   data-wathering:
     container_name: py-data_wathering
     image: ghcr.io/gluecka/py-wathering:latest
+    env_file:
+      - .env
     privileged: true
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -58,6 +60,8 @@ services:
   data-weather:
     container_name: py-data_weather
     image: ghcr.io/gluecka/py-weather:latest
+    env_file:
+      - .env
     privileged: true
     volumes:
       - /etc/localtime:/etc/localtime:ro
