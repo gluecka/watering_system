@@ -35,7 +35,7 @@ services:
 
   py-trigger:
     container_name: py-trigger
-    image: ghcr.io/gluecka/py-trigger:1.0
+    image: ghcr.io/gluecka/py-trigger:latest
 #    build:
 #      dockerfile: Dockerfile.trigger
     privileged: true
