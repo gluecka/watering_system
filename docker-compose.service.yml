@@ -32,6 +32,7 @@ services:
     profiles: ['summer', 'winter']     
 
 
+
   py-trigger:
     container_name: py-trigger
     image: ghcr.io/gluecka/py-trigger:latest
