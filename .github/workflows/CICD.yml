@@ -38,7 +38,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }} # this token gonna recreate automaticly of each workflow start
 
-    - name: Build and push first Image
+    - name: Build and push trigger Image
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -48,7 +48,29 @@ jobs:
         tags: |
           ghcr.io/${{ github.repository_owner }}/py-trigger:latest
 #          ghcr.io/${{ github.repository_owner }}/py-trigger:${{ github.sha }}
-    
+
+    - name: Build and push wathering Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: Dockerfile.data_wathering
+        push: true
+        platforms: linux/amd64, linux/arm64
+        tags: |
+          ghcr.io/${{ github.repository_owner }}/py-wathering:latest
+#          ghcr.io/${{ github.repository_owner }}/py-wathering:${{ github.sha }}
+
+    - name: Build and push weather Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: Dockerfile.data_weather
+        push: true
+        platforms: linux/amd64, linux/arm64
+        tags: |
+          ghcr.io/${{ github.repository_owner }}/py-weather:latest
+#          ghcr.io/${{ github.repository_owner }}/py-weather:${{ github.sha }}
+
     - name: Deploy to Raspberry via SSH (Docker compose)
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -63,5 +85,8 @@ jobs:
           git pull origin master
 
           docker rmi -f ghcr.io/${{ github.repository_owner }}/py-trigger:latest
+          docker rmi -f ghcr.io/${{ github.repository_owner }}/py-wathering:latest
+          docker rmi -f ghcr.io/${{ github.repository_owner }}/py-weather:latest
 
           docker compose -f docker-compose.service.yml --profile summer up -d
+          docker system prune -f
