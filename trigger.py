@@ -28,7 +28,7 @@ wathering_time = 60
 effect_time = 60
 
 # define the value wich is responsible to set the trigger on GO --> in percent of soil condition
-set_trigger = 20
+set_trigger = 45
 
 # define fuction to calculate the percent of the wather in soil
 def soil(input_measured_value):
