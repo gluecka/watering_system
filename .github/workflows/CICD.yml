@@ -23,6 +23,18 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Check changes
+      uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          trigger:
+            - 'watering_system/trigger.py'
+          wathering:
+            - 'watering_system/data_wathering.py'
+          weather:
+            - 'watering_system/data_weather.py'
     
     # Multiarchitecture Support
     - name: Set up QEMU
@@ -39,6 +51,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }} # this token gonna recreate automaticly of each workflow start
 
     - name: Build and push trigger Image
+      if: steps.changes.outputs.trigger == 'true'
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -47,9 +60,10 @@ jobs:
         platforms: linux/amd64, linux/arm64
         tags: |
           ghcr.io/${{ github.repository_owner }}/py-trigger:latest
-#          ghcr.io/${{ github.repository_owner }}/py-trigger:${{ github.sha }}
+          ghcr.io/${{ github.repository_owner }}/py-trigger:${{ github.sha }}
 
     - name: Build and push wathering Image
+      if: steps.changes.outputs.wathering == 'true'
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -58,9 +72,10 @@ jobs:
         platforms: linux/amd64, linux/arm64
         tags: |
           ghcr.io/${{ github.repository_owner }}/py-wathering:latest
-#          ghcr.io/${{ github.repository_owner }}/py-wathering:${{ github.sha }}
+          ghcr.io/${{ github.repository_owner }}/py-wathering:${{ github.sha }}
 
     - name: Build and push weather Image
+      if: steps.changes.outputs.weather == 'true'
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -69,7 +84,7 @@ jobs:
         platforms: linux/amd64, linux/arm64
         tags: |
           ghcr.io/${{ github.repository_owner }}/py-weather:latest
-#          ghcr.io/${{ github.repository_owner }}/py-weather:${{ github.sha }}
+          ghcr.io/${{ github.repository_owner }}/py-weather:${{ github.sha }}
 
     - name: Deploy to Raspberry via SSH (Docker compose)
       uses: appleboy/ssh-action@v1.0.3
