@@ -30,11 +30,11 @@ jobs:
       with:
         filters: |
           trigger:
-            - 'watering_system/trigger.py'
+            - './watering_system/trigger**'
           wathering:
-            - 'watering_system/data_wathering.py'
+            - './watering_system/data_wathering**'
           weather:
-            - 'watering_system/data_weather.py'
+            - './watering_system/data_weather**'
     
     # Multiarchitecture Support
     - name: Set up QEMU
