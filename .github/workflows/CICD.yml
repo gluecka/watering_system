@@ -7,8 +7,31 @@ on:
 
 jobs:
 
-  build-and-deploy:
+  filter-job:
+    runs-on: ubuntu-latest
 
+    outputs:
+      trigger: ${{ steps.changes.outputs.trigger }}
+      wathering: ${{ steps.changes.outputs.wathering }}
+      weather: ${{ steps.changes.outputs.weather }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Check changes
+      uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          trigger:
+            - 'watering_system/trigger.py'
+          wathering:
+            - 'watering_system/data_wathering.py'
+          weather:
+            - 'watering_system/data_weather.py'
+
+  build-and-deploy:
+    needs: filter-job
     runs-on: ubuntu-latest
 
     permissions:
@@ -24,17 +47,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Check changes
-      uses: dorny/paths-filter@v3
-      id: changes
-      with:
-        filters: |
-          trigger:
-            - './watering_system/trigger**'
-          wathering:
-            - './watering_system/data_wathering**'
-          weather:
-            - './watering_system/data_weather**'
     
     # Multiarchitecture Support
     - name: Set up QEMU
@@ -51,7 +63,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }} # this token gonna recreate automaticly of each workflow start
 
     - name: Build and push trigger Image
-      if: steps.changes.outputs.trigger == 'true'
+      if: ${{ needs.filter-job.outputs.trigger == 'true' }}
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -63,7 +75,7 @@ jobs:
           ghcr.io/${{ github.repository_owner }}/py-trigger:${{ github.sha }}
 
     - name: Build and push wathering Image
-      if: steps.changes.outputs.wathering == 'true'
+      if: ${{ needs.filter-job.outputs.wathering == 'true' }}
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -75,7 +87,7 @@ jobs:
           ghcr.io/${{ github.repository_owner }}/py-wathering:${{ github.sha }}
 
     - name: Build and push weather Image
-      if: steps.changes.outputs.weather == 'true'
+      if: ${{ needs.filter-job.outputs.weather == 'true' }}
       uses: docker/build-push-action@v5
       with:
         context: .
