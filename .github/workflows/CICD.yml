@@ -24,11 +24,11 @@ jobs:
       with:
         filters: |
           trigger:
-            - 'watering_system/trigger.py'
+            - 'trigger.py'
           wathering:
-            - 'watering_system/data_wathering.py'
+            - 'data_wathering.py'
           weather:
-            - 'watering_system/data_weather.py'
+            - 'data_weather.py'
 
   build-and-deploy:
     needs: filter-job
