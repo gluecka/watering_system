@@ -36,7 +36,7 @@ high_wather = 7800
 # define fuction to calculate the percent of the wather in soil
 def soil(input_measured_value):
     if input_measured_value >= low_wather:
-        return float(0.1)
+        return float(0.01)
     elif input_measured_value <= high_wather:
         return float(100.1)
     else:

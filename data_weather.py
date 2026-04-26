@@ -34,8 +34,6 @@ while True:
     
     # print(F'Temperature: {temperature} Preassure: {pressure} Humidity: {humidity}')
     
-
-
     # !!!!!!!!!!!!!!!!!!! create post request to influxDB !!!!!!!!!!!!!!!!!!!!!!
 
     # set influx client

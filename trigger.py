@@ -25,7 +25,7 @@ high_wather = 7800
 wathering_time = 900
 
 # define wather effekt time if the wathering process is finish --> in secounds
-effect_time = 600
+effect_time = 540
 
 # define the value wich is responsible to set the trigger on GO --> in percent of soil condition
 set_trigger = 45
