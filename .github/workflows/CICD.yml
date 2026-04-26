@@ -148,7 +148,7 @@ jobs:
       if: ${{ needs.filter-job.outputs.trigger == 'true' }}
       uses: actions/delete-package-versions@v5
       with:
-        package-name: py-trigger
+        package-name: ghcr.io/${{ github.repository_owner }}/py-trigger
         package-type: container
         min-versions-to-keep: 5
 
@@ -156,7 +156,7 @@ jobs:
       if: ${{ needs.filter-job.outputs.wathering == 'true' }}
       uses: actions/delete-package-versions@v5
       with:
-        package-name: py-wathering
+        package-name: ghcr.io/${{ github.repository_owner }}/py-wathering
         package-type: container
         min-versions-to-keep: 5
 
@@ -164,6 +164,6 @@ jobs:
       if: ${{ needs.filter-job.outputs.weather == 'true' }}
       uses: actions/delete-package-versions@v5
       with:
-        package-name: py-weather
+        package-name: ghcr.io/${{ github.repository_owner }}/py-weather
         package-type: container
         min-versions-to-keep: 5
