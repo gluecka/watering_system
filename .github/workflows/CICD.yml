@@ -147,23 +147,29 @@ jobs:
     - name: Cleanup old Docker Image Trigger
       if: ${{ needs.filter-job.outputs.trigger == 'true' }}
       uses: actions/delete-package-versions@v5
+      continue-on-error: true
       with:
-        package-name: ghcr.io/${{ github.repository_owner }}/py-trigger
+        package-name: py-trigger
         package-type: container
         min-versions-to-keep: 5
+        delete-only-untagged-versions: true
 
     - name: Cleanup old Docker Image Wathering
       if: ${{ needs.filter-job.outputs.wathering == 'true' }}
       uses: actions/delete-package-versions@v5
+      continue-on-error: true
       with:
-        package-name: ghcr.io/${{ github.repository_owner }}/py-wathering
+        package-name: py-wathering
         package-type: container
         min-versions-to-keep: 5
+        delete-only-untagged-versions: true
 
     - name: Cleanup old Docker Image Weather
       if: ${{ needs.filter-job.outputs.weather == 'true' }}
       uses: actions/delete-package-versions@v5
+      continue-on-error: true
       with:
-        package-name: ghcr.io/${{ github.repository_owner }}/py-weather
+        package-name: py-weather
         package-type: container
         min-versions-to-keep: 5
+        delete-only-untagged-versions: true
