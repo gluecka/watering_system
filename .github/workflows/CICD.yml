@@ -144,12 +144,23 @@ jobs:
           docker compose -f docker-compose.service.yml --profile summer up -d
           docker system prune -f
 
-    - name: Cleanup old Docker Images
+    - name: Cleanup old Docker Image Trigger
       uses: actions/delete-package-versions@v5
       with:
-        package-name: |
-          py-trigger
-          py-wathering
-          py-weather
+        package-name: py-trigger
+        package-type: container
+        min-versions-to-keep: 5
+
+    - name: Cleanup old Docker Image Wathering
+      uses: actions/delete-package-versions@v5
+      with:
+        package-name: py-trigger
+        package-type: container
+        min-versions-to-keep: 5
+
+    - name: Cleanup old Docker Image Weather
+      uses: actions/delete-package-versions@v5
+      with:
+        package-name: py-weather
         package-type: container
         min-versions-to-keep: 5
