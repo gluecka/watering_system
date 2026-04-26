@@ -104,6 +104,7 @@ jobs:
 
 
   connetion-and-deploy-to-raspberry-via-ssh:
+    needs: build-and-deploy
 
     permissions:
       contents: read
