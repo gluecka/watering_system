@@ -22,10 +22,10 @@ low_wather = 21370
 high_wather = 7800
 
 # define the wathering time if the wathering system is in progress --> in scounds
-wathering_time = 600
+wathering_time = 900
 
 # define wather effekt time if the wathering process is finish --> in secounds
-effect_time = 300
+effect_time = 600
 
 # define the value wich is responsible to set the trigger on GO --> in percent of soil condition
 set_trigger = 45
