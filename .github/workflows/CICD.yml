@@ -104,7 +104,7 @@ jobs:
 
 
   connetion-and-deploy-to-raspberry-via-ssh:
-    needs: build-and-deploy
+    needs: [build-and-deploy, filter-job]
 
     permissions:
       contents: read
@@ -145,6 +145,7 @@ jobs:
           docker system prune -f
 
     - name: Cleanup old Docker Image Trigger
+      if: ${{ needs.filter-job.outputs.trigger == 'true' }}
       uses: actions/delete-package-versions@v5
       with:
         package-name: py-trigger
@@ -152,13 +153,15 @@ jobs:
         min-versions-to-keep: 5
 
     - name: Cleanup old Docker Image Wathering
+      if: ${{ needs.filter-job.outputs.wathering == 'true' }}
       uses: actions/delete-package-versions@v5
       with:
-        package-name: py-trigger
+        package-name: py-wathering
         package-type: container
         min-versions-to-keep: 5
 
     - name: Cleanup old Docker Image Weather
+      if: ${{ needs.filter-job.outputs.weather == 'true' }}
       uses: actions/delete-package-versions@v5
       with:
         package-name: py-weather
