@@ -73,7 +73,7 @@ jobs:
         context: .
         file: Dockerfile.trigger
         push: true
-        platforms: linux/amd64, linux/arm64
+        platforms: linux/arm64
         tags: |
           ghcr.io/${{ github.repository_owner }}/py-trigger:latest
           ghcr.io/${{ github.repository_owner }}/py-trigger:${{ steps.time.outputs.timestamp }}
@@ -85,7 +85,7 @@ jobs:
         context: .
         file: Dockerfile.data_wathering
         push: true
-        platforms: linux/amd64, linux/arm64
+        platforms: linux/arm64
         tags: |
           ghcr.io/${{ github.repository_owner }}/py-wathering:latest
           ghcr.io/${{ github.repository_owner }}/py-wathering:${{ steps.time.outputs.timestamp }}
@@ -97,7 +97,7 @@ jobs:
         context: .
         file: Dockerfile.data_weather
         push: true
-        platforms: linux/amd64, linux/arm64
+        platforms: linux/arm64
         tags: |
           ghcr.io/${{ github.repository_owner }}/py-weather:latest
           ghcr.io/${{ github.repository_owner }}/py-weather:${{ steps.time.outputs.timestamp }}
@@ -141,7 +141,7 @@ jobs:
           docker rmi -f ghcr.io/${{ github.repository_owner }}/py-wathering:latest
           docker rmi -f ghcr.io/${{ github.repository_owner }}/py-weather:latest
 
-          docker compose -f docker-compose.service.yml --profile summer up -d
+          ./archiv/start_defined_mode.sh
           docker system prune -f
 
     - name: Cleanup old Docker Image Trigger
@@ -151,7 +151,7 @@ jobs:
       with:
         package-name: py-trigger
         package-type: container
-        min-versions-to-keep: 5
+        min-versions-to-keep: 2
         delete-only-untagged-versions: true
 
     - name: Cleanup old Docker Image Wathering
@@ -161,7 +161,7 @@ jobs:
       with:
         package-name: py-wathering
         package-type: container
-        min-versions-to-keep: 5
+        min-versions-to-keep: 2
         delete-only-untagged-versions: true
 
     - name: Cleanup old Docker Image Weather
@@ -171,5 +171,9 @@ jobs:
       with:
         package-name: py-weather
         package-type: container
-        min-versions-to-keep: 5
+        min-versions-to-keep: 2
         delete-only-untagged-versions: true
+
+
+
+        #          docker compose -f docker-compose.service.yml --profile summer up -d
