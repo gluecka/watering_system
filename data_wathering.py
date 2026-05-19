@@ -31,7 +31,7 @@ ads = ADS.ADS1115(i2c)
 # write the value in the variable--> low_wather if the sensor is absolutely dry
 # write the value in the variable--> high_wather if the sensor is in wather
 low_wather = 21600
-high_wather = 15000
+high_wather = 12000
 
 # define fuction to calculate the percent of the wather in soil
 def soil(input_measured_value):
