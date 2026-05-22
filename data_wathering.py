@@ -53,7 +53,7 @@ while True:
     try:
         measure_counter = 0
         measure_list = []
-        while measure_counter <= 10:
+        while measure_counter <= 5:
             # read values and voltage in the value variable
             value = AnalogIn(ads, ADS.P0)
 
