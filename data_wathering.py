@@ -82,7 +82,7 @@ while True:
     
     # PIN 16 as input for the measuring of the watering system status ON of OFF
     try:
-        GPIO.setup(16, GPIO.IN)
+        GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         system_status = GPIO.input(16)
         # print(GPIO.input(16), "Bewässerung aus")
     except:
