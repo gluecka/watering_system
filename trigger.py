@@ -19,7 +19,7 @@ ads = ADS.ADS1115(i2c)
 
 # identified values of soil_value_ident.py
 low_wather = 21400
-high_wather = 8000
+high_wather = 11000
 
 # define the wathering time if the wathering system is in progress --> in scounds
 wathering_time = 1200
