@@ -4,6 +4,8 @@ WORKDIR /usr/src/pyapp
 
 COPY trigger.py .
 COPY requirements.txt .
+COPY models.py .
+COPY config.json .
 
 RUN pip install -r requirements.txt
 

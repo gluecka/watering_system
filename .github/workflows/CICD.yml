@@ -25,8 +25,12 @@ jobs:
         filters: |
           trigger:
             - 'trigger.py'
+            - 'models.py'
+            - 'config.json'
           wathering:
             - 'data_wathering.py'
+            - 'models.py'
+            - 'config.json'
           weather:
             - 'data_weather.py'
 

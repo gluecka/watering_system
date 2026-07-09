@@ -3,3 +3,4 @@ venv
 letsencrypt
 data
 Docker_volumes
+__pycache__
