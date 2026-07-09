@@ -1,0 +1,9 @@
+{
+    "low_wather" : 23000,
+    "high_wather" : 10000,
+    
+    "wathering_time" : 1200,
+    "effect_time" : 600,
+    "trigger_limit" : 45,
+    "loop_counter_limit" : 40
+}

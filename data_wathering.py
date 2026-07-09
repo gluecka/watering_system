@@ -10,6 +10,8 @@ import statistics
 import os
 from dotenv import load_dotenv
 load_dotenv()
+from models import SensorValueTrasformator
+
 
 #import from .env File
 USER = os.environ.get('INFLUX_USER')
@@ -27,56 +29,29 @@ i2c = busio.I2C(board.SCL, board.SDA)
 # create object of ADC (Analog Digital Converter) using i2c bus
 ads = ADS.ADS1115(i2c)
 
-# identified values of soil_value_ident.py
-# write the value in the variable--> low_wather if the sensor is absolutely dry
-# write the value in the variable--> high_wather if the sensor is in wather
-low_wather = 23000
-high_wather = 10000
-
-# define fuction to calculate the percent of the wather in soil
-def soil(input_measured_value):
-    if input_measured_value >= low_wather:
-        return float(0.01)
-    elif input_measured_value <= high_wather:
-        return float(100.1)
-    else:
-#        rangee = low_wather - high_wather
-#        wather_rel = (input_measured_value + 0.11111111) - high_wather
-#        wather = wather_rel / rangee * 100
-        gradient = -100 / (low_wather - high_wather)
-        y_distance = 100 - (gradient * high_wather)
-        wather = gradient * input_measured_value + y_distance
-        return float(wather)
 
 while True:
     
     try:
-        measure_counter = 0
         measure_list = []
-        while measure_counter <= 5:
+
+        for x in range(6):
             # read values and voltage in the value variable
-            value = AnalogIn(ads, ADS.P0)
+            sensor_output = AnalogIn(ads, ADS.P0)
 
             # measured_voltage= value.voltage
             # measured_voltage_in_percent = round(soil(measured_voltage), 2)
 
-            measured_value= value.value
-            measured_value= float(measured_value)
-            # measured_value_in_percent = round(soil(measured_value), 2)
-            measured_value_in_percent = soil(measured_value)
+            measured_value= sensor_output.value
+            # define Object to transform the sensor value into percent
+            measured_value_in_percent = SensorValueTrasformator(measured_value)
 
-            measure_list.append(measured_value_in_percent)
-
-            # print value and voltage in 1 secound interval
-            # print(F'Wert: {format(value.value)}', F'Volt: {format(value.voltage)}')
-            # print(F'{measured_voltage_in_percent} %')
-            # print(F'{measured_value_in_percent} %')
-            measure_counter += 1
+            measure_list.append(measured_value_in_percent.percent_calculation())
             time.sleep(0.5)
+
         measured_value_in_percent = float(statistics.mean(measure_list))
 
     except:
-        # measured_voltage_in_percent = 0
         measured_value_in_percent = float(0.0)
         # print(F'{measured_value_in_percent} % as Error Value')
     
@@ -84,21 +59,16 @@ while True:
     try:
         GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         system_status = GPIO.input(16)
-        # print(GPIO.input(16), "Bewässerung aus")
     except:
         system_status = 1
         
-
-    
-#    print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}')
-#    print(type(measured_value_in_percent))
-#    time.sleep(2)    
+    # print(F'Bodenfeuchte: {measured_value_in_percent} % System Status: {system_status}') # --> dev
+    # print(type(measured_value_in_percent)) # --> dev
+    # time.sleep(2) # --> dev
 
     # # temporary exit point to develop trigger value
-    # import sys
-    # sys.exit()
-
-
+    # import sys # --> dev
+    # sys.exit() # --> dev
 
 # !!!!!!!!!!!!!!!!!!! create post request to influxDB !!!!!!!!!!!!!!!!!!!!!!
 
